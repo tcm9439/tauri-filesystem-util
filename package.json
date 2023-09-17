@@ -2,7 +2,11 @@
   "name": "tauri-fs-util",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/api-index.d.js",
+  "files": [
+    "lib/**/*"
+  ],
   "scripts": {
     "test": "vitest --run --globals --config ./vitest.config.js",
     "test-ui": "vitest --ui",
@@ -22,5 +26,8 @@
     "tsc-alias": "^1.8.7",
     "typescript": "^5.2.2",
     "vitest": "^0.34.4"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^1.4.0"
   }
 }
