@@ -10,7 +10,7 @@ export interface IFileSystem {
     /**
      * Write a text file in the given directory.
      */
-    writeTextFile(path: string, content: string, dir?: BaseDirectoryType): Promise<void>
+    writeTextFile(path: string, content: string, append: boolean, dir?: BaseDirectoryType): Promise<void>
 
     /**
      * Read a text file in the given directory.

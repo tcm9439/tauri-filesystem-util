@@ -32,7 +32,10 @@ export class NodeFileSystem implements IFileSystem {
             .catch(() => false)
     }
 
-    async writeTextFile(path: string, content: string, dir?:BaseDirectoryType): Promise<void> {
+    async writeTextFile(path: string, content: string, append: boolean = true, dir?:BaseDirectoryType): Promise<void> {
+        if (append) {
+            return fspromises.appendFile(this.mapDir(dir, path), content, { encoding: 'utf8' })
+        }
         return fspromises.writeFile(this.mapDir(dir, path), content, { encoding: 'utf8' })
     }
 
