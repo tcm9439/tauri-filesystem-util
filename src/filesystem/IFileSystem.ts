@@ -1,4 +1,4 @@
-export type BaseDirectoryType = Promise<string>
+export type BaseDirectoryType = number
 
 export interface IFileSystem {
     /**

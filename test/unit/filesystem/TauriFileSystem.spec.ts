@@ -7,6 +7,6 @@ describe("TauriFileSystem", () => {
         expect(TauriFileSystem.instance["baseDir"](path)).toBe("test/out")
 
         path = "abc.txt"
-        expect(TauriFileSystem.instance["baseDir"](path)).toBe("./")
+        expect(TauriFileSystem.instance["baseDir"](path)).toBe("")
     })
 })

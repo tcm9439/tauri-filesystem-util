@@ -5,8 +5,16 @@ import { exists, BaseDirectory, writeTextFile, readTextFile, writeBinaryFile, cr
 /**
  * Remember to set the tauri.allowlist.fs in tauri.conf.json.
  * 
- * Notice "$APPDATA/" and "$APPDATA/*" are different scope.
- * If is "$APPDATA/*", TauriFileSystem.instance.exists("./") will throw a "path not in scope" error.
+ * Notice "$APPDATA/", "$APPDATA/*", "$APPDATA/**" are different scope.
+ * "$APPDATA/": only allow $APPDATA
+ * "$APPDATA/*": allow $APPDATA/abc.txt but not $APPDATA/abc/abc.txt
+ * "$APPDATA/**": allow $APPDATA/abc.txt and $APPDATA/abc/abc.txt
+ * 
+ * In order to create $APPDAT itself,
+ *  createDir("", { dir: dir, recursive: true })    # works
+ *  createDir(".", { dir: dir, recursive: true })   # does not work
+ *  createDir("./", { dir: dir, recursive: true })  # does not work
+ * Same for other API.
  */
 export class TauriFileSystem implements IFileSystem {
     public static instance: TauriFileSystem = new TauriFileSystem()
@@ -18,7 +26,7 @@ export class TauriFileSystem implements IFileSystem {
     private baseDir(path: string): string {
         let index = path.lastIndexOf("/")
         if (index == -1) {
-            return "./"
+            return ""
         }
         return path.substring(0, index)
     }
@@ -54,7 +62,8 @@ export class TauriFileSystem implements IFileSystem {
     }
 
     async createDirectory(path: string, dir: BaseDirectoryType = BaseDirectory.AppData): Promise<void> {
-        if (!await this.exists(path, dir)) {
+        let exists = await this.exists(path, dir)
+        if (!exists) {
             // create the directory if it does not exists
             return createDir(path, { dir: dir, recursive: true })
         }

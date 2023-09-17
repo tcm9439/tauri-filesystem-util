@@ -12,6 +12,10 @@ export class NodeFileSystem implements IFileSystem {
     }
 
     private mapDir(dir?:BaseDirectoryType, path?: string): string {
+        if (path == undefined) {
+            path = ""
+        }
+        
         switch (dir) {
             case BaseDirectory.AppData:
                 return NodeFileSystem.test_base_dir + "appdata/" + path

@@ -7,6 +7,10 @@ describe("NodeFileSystem", () => {
         NodeFileSystem.instance.createDirectory("test/out")
     })
 
+    it("mapPath", () => {
+        expect(NodeFileSystem.instance["mapDir"](22)).toBe("./test/appdata/")
+    })
+
 	it("exists", () => {
         expect(NodeFileSystem.instance.exists("resource/simpleText.txt")).resolves.toBe(true)
         expect(NodeFileSystem.instance.exists("resource/notexists.txt")).resolves.toBe(false)
