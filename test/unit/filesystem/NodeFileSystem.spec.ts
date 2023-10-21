@@ -3,11 +3,13 @@ import { NodeFileSystem } from "@/filesystem/NodeFileSystem"
 
 describe("NodeFileSystem", () => {
     beforeAll(() => {
-        NodeFileSystem.instance.removeDirectory("test/out")
-        NodeFileSystem.instance.createDirectory("test/out")
+        NodeFileSystem.instance.removeDirectory("out").then(() => {
+            NodeFileSystem.instance.createDirectory("out")
+        })
     })
 
     it("mapPath", () => {
+        // AppData = 22,
         expect(NodeFileSystem.instance["mapDir"](22)).toBe("./test/appdata/")
     })
 
@@ -44,9 +46,9 @@ describe("NodeFileSystem", () => {
     })
 
     it("removeFile", () => {
-        NodeFileSystem.instance.writeTextFile("out/remove.txt", "Hello World!\n").then(() => {
+        NodeFileSystem.instance.writeTextFile("out/remove.txt", "Hello World!\n").then(async () => {
             expect(NodeFileSystem.instance.exists("out/remove.txt")).resolves.toBe(true)
-            NodeFileSystem.instance.removeFile("out/remove.txt")
+            await NodeFileSystem.instance.removeFile("out/remove.txt")
             expect(NodeFileSystem.instance.exists("out/remove.txt")).resolves.toBe(false)
         })
     })

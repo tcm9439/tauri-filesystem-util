@@ -11,7 +11,10 @@ export class NodeFileSystem implements IFileSystem {
         NodeFileSystem.test_base_dir = dir
     }
 
-    private mapDir(dir?:BaseDirectoryType, path?: string): string {
+    /**
+     * Map the BaseDirectoryType + path to a full path
+     */
+    private mapDir(dir?: BaseDirectoryType, path?: string): string {
         if (path == undefined) {
             path = ""
         }
@@ -36,34 +39,45 @@ export class NodeFileSystem implements IFileSystem {
             .catch(() => false)
     }
 
-    async writeTextFile(path: string, content: string, append: boolean = true, dir?:BaseDirectoryType): Promise<void> {
+    async writeTextFile(path: string, content: string, append: boolean = true, dir?: BaseDirectoryType): Promise<void> {
         if (append) {
             return fspromises.appendFile(this.mapDir(dir, path), content, { encoding: 'utf8' })
         }
         return fspromises.writeFile(this.mapDir(dir, path), content, { encoding: 'utf8' })
     }
 
-    async readTextFile(path: string, dir?:BaseDirectoryType): Promise<string> {
-        return fspromises.readFile(this.mapDir(dir, path), { encoding: 'utf8' });
+    async readTextFile(path: string, dir?: BaseDirectoryType): Promise<string> {
+        if (await this.exists(path, dir)){
+            return fspromises.readFile(this.mapDir(dir, path), { encoding: 'utf8' })
+        }
+        throw new Error("File not found")
     }
 
-    async writeBinaryFile(path: string, content: Uint8Array, dir?:BaseDirectoryType): Promise<void> {
-        return fspromises.writeFile(this.mapDir(dir, path), content)
+    async writeBinaryFile(path: string, content: Uint8Array, dir?: BaseDirectoryType): Promise<void> {
+        return fs.writeFileSync(this.mapDir(dir, path), content)
     }
 
-    async readBinaryFile(path: string, dir?:BaseDirectoryType): Promise<Uint8Array> {
-        return fspromises.readFile(this.mapDir(dir, path))
+    async readBinaryFile(path: string, dir?: BaseDirectoryType): Promise<Uint8Array> {
+        if (await this.exists(path, dir)){
+            return fspromises.readFile(this.mapDir(dir, path))
+        }
+        throw new Error("File not found")
     }
 
-    async createDirectory(path: string, dir?:BaseDirectoryType): Promise<void> {
-        return fspromises.mkdir(this.mapDir(dir, path), { recursive: true }).then()
+    async createDirectory(path: string, dir?: BaseDirectoryType): Promise<void> {
+        fs.mkdirSync(this.mapDir(dir, path), { recursive: true })
+        return Promise.resolve()
     }
 
-    async removeFile(path: string, dir?:BaseDirectoryType): Promise<void> {
-        return fspromises.rm(this.mapDir(dir, path))
+    async removeFile(path: string, dir?: BaseDirectoryType): Promise<void> {
+        if (await this.exists(path, dir)){
+            fs.rmSync(this.mapDir(dir, path), { recursive: true, force: true })
+            return Promise.resolve()
+        }
     }
 
-    async removeDirectory(path: string, dir?:BaseDirectoryType): Promise<void> {
-        return fspromises.rmdir(this.mapDir(dir, path))
+    async removeDirectory(path: string, dir?: BaseDirectoryType): Promise<void> {
+        await this.removeFile(path, dir)
+        return Promise.resolve()
     }
 }
