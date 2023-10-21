@@ -40,10 +40,15 @@ export class TauriFileSystem implements IFileSystem {
         return exists(path)
     }
 
-    async writeTextFile(path: string, content: string, append: boolean = false, dir?: BaseDirectoryType): Promise<void> {
-        // If the path does not exists, writeTextFile will throw an error.
-        let base_dir = this.baseDir(path)
-        await this.createDirectory(base_dir, dir)
+    async writeTextFile(path: string, content: string, append: boolean = false, path_from_dialog: boolean = false, dir?: BaseDirectoryType): Promise<void> {
+        if (!path_from_dialog) {
+            // If not from dialog, the directory may not exists
+            let base_dir = this.baseDir(path)
+            await this.createDirectory(base_dir, dir)
+        }
+        // else, if from dialog, the directory must exists 
+        // & there will be error about "path not allowed" when trying to check exists / create the directory
+
         if (dir !== undefined){
             return writeTextFile(path, content, { dir: dir, append: append })
         }
@@ -57,10 +62,13 @@ export class TauriFileSystem implements IFileSystem {
         return readTextFile(path)
     }
  
-    async writeBinaryFile(path: string, content: Uint8Array, dir?: BaseDirectoryType): Promise<void> {
-        // If the path does not exists, writeTextFile will throw an error.
-        let base_dir = this.baseDir(path)
-        await this.createDirectory(base_dir)
+    async writeBinaryFile(path: string, content: Uint8Array, path_from_dialog: boolean = false, dir?: BaseDirectoryType): Promise<void> {
+        if (!path_from_dialog) {
+            // If not from dialog, the directory may not exists
+            let base_dir = this.baseDir(path)
+            await this.createDirectory(base_dir, dir)
+        }
+
         if (dir !== undefined){
             return writeBinaryFile(path, content, { dir: dir })
         }

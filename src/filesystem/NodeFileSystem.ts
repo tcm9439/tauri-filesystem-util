@@ -39,7 +39,7 @@ export class NodeFileSystem implements IFileSystem {
             .catch(() => false)
     }
 
-    async writeTextFile(path: string, content: string, append: boolean = true, dir?: BaseDirectoryType): Promise<void> {
+    async writeTextFile(path: string, content: string, append: boolean = true, path_from_dialog: boolean = false, dir?: BaseDirectoryType): Promise<void> {
         if (append) {
             return fspromises.appendFile(this.mapDir(dir, path), content, { encoding: 'utf8' })
         }
@@ -53,7 +53,7 @@ export class NodeFileSystem implements IFileSystem {
         throw new Error("File not found")
     }
 
-    async writeBinaryFile(path: string, content: Uint8Array, dir?: BaseDirectoryType): Promise<void> {
+    async writeBinaryFile(path: string, content: Uint8Array, path_from_dialog: boolean = false, dir?: BaseDirectoryType): Promise<void> {
         return fs.writeFileSync(this.mapDir(dir, path), content)
     }
 

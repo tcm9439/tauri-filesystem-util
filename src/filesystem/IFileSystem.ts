@@ -10,7 +10,7 @@ export interface IFileSystem {
     /**
      * Write a text file in the given directory.
      */
-    writeTextFile(path: string, content: string, append: boolean, dir?: BaseDirectoryType): Promise<void>
+    writeTextFile(path: string, content: string, append: boolean, path_from_dialog: boolean, dir?: BaseDirectoryType): Promise<void>
 
     /**
      * Read a text file in the given directory.
@@ -21,7 +21,7 @@ export interface IFileSystem {
     /**
      * Write a binary file in the given directory.
      */
-    writeBinaryFile(path: string, content: Uint8Array, dir?: BaseDirectoryType): Promise<void>
+    writeBinaryFile(path: string, content: Uint8Array, path_from_dialog: boolean, dir?: BaseDirectoryType): Promise<void>
 
     /**
      * Read a binary file in the given directory.
