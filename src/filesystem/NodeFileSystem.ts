@@ -1,4 +1,4 @@
-import { BaseDirectoryType, IFileSystem } from "@/filesystem/IFileSystem"
+import { BaseDirectoryType, IFileSystem } from "@/filesystem/IFileSystem.js"
 import fspromises from "fs/promises"
 import fs from "fs"
 import { BaseDirectory } from '@tauri-apps/api/fs'

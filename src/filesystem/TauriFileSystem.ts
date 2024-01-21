@@ -1,6 +1,6 @@
-import { IFileSystem, BaseDirectoryType } from "@/filesystem/IFileSystem"
+import { IFileSystem, BaseDirectoryType } from "@/filesystem/IFileSystem.js"
 
-import { exists, BaseDirectory, writeTextFile, readTextFile, writeBinaryFile, createDir, readBinaryFile, removeFile } from '@tauri-apps/api/fs'
+import { exists, writeTextFile, readTextFile, writeBinaryFile, createDir, readBinaryFile, removeFile } from '@tauri-apps/api/fs'
 
 /**
  * Remember to set the tauri.allowlist.fs in tauri.conf.json.

@@ -4,9 +4,14 @@
   "description": "",
   "main": "./lib/index.js",
   "types": "./lib/api-index.d.js",
+  "type": "module",
   "files": [
     "lib/**/*"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tcm9439/tauri-filesystem-util.git"
+  },
   "scripts": {
     "test": "vitest --run --globals --config ./vitest.config.js",
     "test-ui": "vitest --ui",
@@ -16,9 +21,12 @@
     "build-all": "npm run build && npm run build-types && npm run minify",
     "minify": "minify-all-js ./lib"
   },
-  "keywords": [],
+  "keywords": [
+    "tauri",
+    "filesystem"
+  ],
   "author": "MaisyT",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@microsoft/api-extractor": "^7.37.0",
     "@types/node": "^20.6.2",
