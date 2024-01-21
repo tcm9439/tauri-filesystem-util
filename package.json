@@ -1,7 +1,7 @@
 {
-  "name": "tauri-fs-util",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@maisyt/tauri-fs-util",
+  "version": "0.1.0",
+  "description": "A helper utility library for accessing filesystem when using Tauri. Also provide another implementation of Node (local fs) for unit test purpose.",
   "main": "./lib/index.js",
   "types": "./lib/api-index.d.js",
   "type": "module",
@@ -37,5 +37,9 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^1.4.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/tcm9439/tauri-filesystem-util/issues"
+  },
+  "homepage": "https://github.com/tcm9439/tauri-filesystem-util#readme"
 }
